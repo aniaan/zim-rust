@@ -1,7 +1,10 @@
-if (( ! ${+commands[rustup]} || ! ${+commands[cargo]} )); then
-  return 1
-fi
+[[ -d ${HOME}/.cargo/bin ]] && path=(${HOME}/.cargo/bin ${path:#${HOME}/.cargo/bin})
 
-if [[ ! -f "${0:h}/functions/_rustup" ]]; then
-  rustup completions zsh > "${0:h}/functions/_rustup"
-fi
+(( ${+commands[rustup]} )) && () {
+  local command=${commands[rustup]}
+  local compfile="$1/functions/_rustup"
+  if [[ ! -e "$compfile" || "$compfile" -ot "$command" ]]; then
+    "$command" completions zsh >| $compfile
+    print -u2 -PR "* Detected a new version of 'rustup'. Regenerated completions."
+  fi
+} "${0:h}"
