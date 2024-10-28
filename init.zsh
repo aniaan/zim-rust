@@ -1,6 +1,6 @@
 if [[ -d ${HOME}/.cargo/bin ]]; then
-  path=(${path:#${HOME}/.cargo/bin})
-  path=(${HOME}/.cargo/bin $path)
+  path=(${HOME}/.cargo/bin ${path:#${HOME}/.cargo/bin})
+  export PATH
 fi
 
 (( ${+commands[rustup]} )) && () {
