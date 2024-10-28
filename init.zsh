@@ -1,4 +1,7 @@
-[[ -d ${HOME}/.cargo/bin ]] && path=(${HOME}/.cargo/bin ${path:#${HOME}/.cargo/bin})
+if [[ -d ${HOME}/.cargo/bin ]]; then
+  path=(${path:#${HOME}/.cargo/bin})
+  path=(${HOME}/.cargo/bin $path)
+fi
 
 (( ${+commands[rustup]} )) && () {
   local command=${commands[rustup]}
